@@ -1,0 +1,52 @@
+﻿ var databank= [ 
+
+{ q: "Who invented the telephone?",a: "Bell"},
+
+{ q: "Which nail grows fastest?",a: "middle"},
+
+{ q: "What temperature does water boil at?",a: "100C"},
+
+{ q: "Who discovered penicillin?",a: "Fleming"},
+
+{ q: "What Spanish artist said he would eat his wife when she died?",a: "Dali"},
+
+{ q: "Who wrote Julius Caesar, Macbeth and Hamlet?",a: "Shakespeare"},
+
+{ q: "Who wrote Lazarillo de Tormes?",a: "anonymous"},
+
+{ q: "What did the crocodile swallow in Peter Pan?",a: "alarm clock"},
+
+{ q: "Where was Lope de Vega born?",a: "Madrid"},
+
+{ q: "Who did Lady Diana Spencer marry?",a: "Prince Charles"},
+
+{ q: "Where is Mulhacen?",a: "Granada Spain"},
+
+{ q: "How many states are there in the United States of America?",a: "50"},
+
+{ q: "Which river passes through Madrid?",a: "Manzanares"},
+
+{ q: "Which German city is famous for the perfume it produces?",a: "Cologne"},
+
+{ q: "Who did Prince Rainier of Monaco marry?",a: "Grace Kelly"},
+
+{ q: "What year did the Spanish Civil War end?",a: "1939"},
+
+{ q: "When did the First World War start?",a: "1914"},
+
+{ q: "What did Joseph Priesley discover in 1774?",a: "Oxygen"},
+
+{ q: "Where is the smallest bone in the body?",a: "ear"},
+
+{ q: "Which is the only mammal that can’t jump?",a: "elephant"},
+
+{ q: "What does the roman numeral C represent?",a: "100"},
+
+{ q: "What colour is a panda?",a: "black and white"},
+
+{ q: "What nationality was Chopin?",a: "Polish"},
+
+{ q: "What’s the best known artificial international language?",a: "esperanto"},
+
+{ q: "Who lived at 221B, Baker Street, London?",a: "Sherlock Holmes"},
+  ];
