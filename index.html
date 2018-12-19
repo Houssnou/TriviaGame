@@ -7,28 +7,91 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
-  <script src="./assets/javascript/game.js"></script>
-  <title>Psychic Game</title>
+  <title>Trivia Game!</title>
 </head>
 
 <body>
-  <div class="jumbotron my-5 bg-dark text-light">
+  <div class="jumbotron my-5 bg-dark text-light text-center">
     <h1 class="display-4">Trivia Game!</h1>
     <p class="lead">Totally Trivial Triva</p>
+    <div>Time Remaining : <span id="remaining-time"> Seconds</span></div>
     <hr class="my-4">
-    <!-- <p> Wins: <p id="wins"></p>
-    </p>
-    <p> Losses: <p id="losses"></p>
-    </p>
-    <p> Guesses left: <p id="guessesLeft"></p>
-    </p>
-    <p> Your Guesses so far: <p id="guesses"></p>
-    </p>-->
-  </div>   
+    <div id="game">
 
+    </div>
+  </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+  <script>
+    //creation of the button "Start" when the page is loaded inside the div #game which will display the questions and result at the end of the game.
+    var $button = $("<button>");
+    ($button).addClass("btn btn-primary btn-danger btn-lg");
+    ($button).text("Start");
+    $("#game").append($button);
+
+    // declaration of the variables
+    var $correct = 0;
+    var $incorrect = 0;
+    var $unanswered = 0;
+
+    //databank as an object q as the questions and a as the answer
+    var databank = [{
+        q: "Who invented the telephone?",
+        a: "Bell",
+        w1:"90C",
+        w2:"100F"
+      },
+
+      {
+        q: "Which nail grows fastest?",
+        a: "middle",
+        w1:"90C",
+        w2:"100F"
+      },
+
+      {
+        q: "What temperature does water boil at?",
+        a: "100C",
+        w1:"90C",
+        w2:"100F"
+      }
+    ];
+    // end databank. we will move it later into a js file.
+
+  //event listener for a click on start button
+  $(".btn").on("click",function(){
+    // lets clear the div #game that will display the questions
+    $("#game").empty();
+
+    // generates a ramdon number to display a ramdon question
+    var randonQuestionIndex = Math.floor(Math.random() * databank.length);
+    console.log(`random num:${randonQuestionIndex}`);
+    // get the current question into a var randomQuestion
+    var randomQuestion=databank[randonQuestionIndex];
+    console.log(randomQuestion);
+    //display the question
+    $("#game").append(`<h1> ${randomQuestion.q}</h1>`);
+
+    //dispaly the answer
+    //var button answer to apply style like the hover for click
+    
+    var $buttonAnswer=$("<button>");
+    // add class for the hover and button element classes from Boostrap
+    ($buttonAnswer).addClass("btn btn-outline-secondary");
+    ($buttonAnswer).text(randomQuestion.w2);
+
+    //append the button to the div #game under the question with the h1 tag
+    $("#game").append($buttonAnswer);
+    //$("#game").append(`<h2> ${randomQuestion.w2}</h2>`);
+    //$("#game").append(`<h2> ${randomQuestion.a}</h2>`);
+    //$("#game").append(`<h2> ${randomQuestion.w2}</h2>`);
+
+
+  });
+    
+  </script>
 </body>
 
 </html>
