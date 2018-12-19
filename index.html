@@ -28,6 +28,7 @@
     //creation of the button "Start" when the page is loaded inside the div #game which will display the questions and result at the end of the game.
     var $button = $("<button>");
     ($button).addClass("btn btn-primary btn-danger btn-lg");
+    ($button).attr("id","button-start");
     ($button).text("Start");
     $("#game").append($button);
 
@@ -38,59 +39,103 @@
 
     //databank as an object q as the questions and a as the answer
     var databank = [{
-        q: "Who invented the telephone?",
-        a: "Bell",
-        w1:"90C",
-        w2:"100F"
+        question: "What is the capital of United Kingdom?",
+        choices: ["Manchester", "Birmingham", "London", "Birmingham"],
+        answer: 2
       },
 
       {
-        q: "Which nail grows fastest?",
-        a: "middle",
-        w1:"90C",
-        w2:"100F"
+        question: "Who invented the telephone?",
+        choices: ["Bell", "Gates", "Jobs", "Siemens"],
+        answer: 1
       },
 
       {
-        q: "What temperature does water boil at?",
-        a: "100C",
-        w1:"90C",
-        w2:"100F"
+        question: "Which nail grows fastest?",
+        choices: ["Ring", "middle", "Index", "Pinky"],
+        answer: 2
+      },
+
+      {
+        question: "Who wrote Julius Caesar, Macbeth and Hamlet?",
+        choices: ["Amstrong", "Da Silla", "Shakespeare", "Le Jeunot"],
+        answer: 3
+      },
+
+      {
+        question: "What did the crocodile swallow in Peter Pan?",
+        choices: ["pencil", "Watch", "Light bowl", "Alarm clock"],
+        answer: 4
       }
     ];
     // end databank. we will move it later into a js file.
 
-  //event listener for a click on start button
-  $(".btn").on("click",function(){
-    // lets clear the div #game that will display the questions
-    $("#game").empty();
+    //event listener for a click on start button
+    $("#button-start").on("click", function () {
+      // lets clear the div #game that will display the questions
+      $("#game").empty();
 
-    // generates a ramdon number to display a ramdon question
-    var randonQuestionIndex = Math.floor(Math.random() * databank.length);
-    console.log(`random num:${randonQuestionIndex}`);
-    // get the current question into a var randomQuestion
-    var randomQuestion=databank[randonQuestionIndex];
-    console.log(randomQuestion);
-    //display the question
-    $("#game").append(`<h1> ${randomQuestion.q}</h1>`);
+      // generates a ramdon number to display a ramdon question
+      var randonQuestionIndex = Math.floor(Math.random() * databank.length);
+      console.log(`databank length :${databank}`);
 
-    //dispaly the answer
-    //var button answer to apply style like the hover for click
-    
-    var $buttonAnswer=$("<button>");
-    // add class for the hover and button element classes from Boostrap
-    ($buttonAnswer).addClass("btn btn-outline-secondary");
-    ($buttonAnswer).text(randomQuestion.w2);
+      console.log(`random num:${randonQuestionIndex}`);
+      // get the current question into a var randomQuestion
+      var randomQuestion = databank[randonQuestionIndex];
+      console.log(randomQuestion);
 
-    //append the button to the div #game under the question with the h1 tag
-    $("#game").append($buttonAnswer);
-    //$("#game").append(`<h2> ${randomQuestion.w2}</h2>`);
-    //$("#game").append(`<h2> ${randomQuestion.a}</h2>`);
-    //$("#game").append(`<h2> ${randomQuestion.w2}</h2>`);
+      // for every random question generated lets store the answer right away in a var correctAnswer 
+      var correctAnswer=parseInt(randomQuestion.answer);
+      console.log(`Answer is :${correctAnswer} but the user can't see this. can he??`);
 
+      //display the question
+      $("#game").append(`<h1> ${randomQuestion.question}</h1>`);
 
-  });
-    
+      //displaying the answers
+      //loop to display all the answer within the question choices 
+      console.log(`choices length:${randomQuestion.choices.length}`);
+
+      for (var i=0; i<randomQuestion.choices.length;i++){
+        //var button answer to apply style like the hover for click
+      var $buttonAnswer = $("<button>");
+      // add class for the hover and button element classes from Boostrap
+      ($buttonAnswer).addClass("btn btn-outline-secondary btn-lg btn-block");
+      //the i+=1 to the data attr of the button since in our object databank the answer or choices array starts at 1 not 0
+      var $buttonAnswerValue = i +1;
+      ($buttonAnswer).attr("data-buttonvalue",$buttonAnswerValue);
+
+      // lets add an id attribute to the button to handle click on answer as button
+      //($buttonAnswer).attr("id","button-answer");  doesnt seem to work since we will have number choices answers buttons with all the same id pffff!!!
+
+      //add the choice to the button text
+      ($buttonAnswer).text(randomQuestion.choices[i]);
+
+      //append the button to the div #game under the question with the h1 tag
+      $("#game").append($buttonAnswer);
+
+      //$("#game").append("<br>"); // append a line break right after to place the second button 
+      //$("#game").append(`<h2> ${randomQuestion.w2}</h2>`);
+      //$("#game").append(`<h2> ${randomQuestion.a}</h2>`);
+      //$("#game").append(`<h2> ${randomQuestion.w2}</h2>`);
+      }  
+
+      //event listener for a click on the answer button we're using the class btn-block since id didnt work out very well 
+      $(".btn-block").on("click",function(){
+        var $buttonValue=$(this).attr("data-buttonvalue");
+
+        //let CL(console log) the value that the 'this' returns
+        console.log(`button answer value: ${$buttonValue}`);
+        //check if the selected button answer value is equal to the value of the var 
+        if(parseInt($buttonValue)===correctAnswer){
+          $correct++;
+          alert("CORRECT");
+        }
+        else{
+          $incorrect++;
+          alert("FALSE");
+        }
+      });
+    });
   </script>
 </body>
 
