@@ -31,9 +31,10 @@
     var $correct = 0;
     var $incorrect = 0;
     var $unanswered = 0;
-    var $time = 30; // 30 for seconds
+    var $time = 9; // 30 for seconds
     var clockRunning = false;
     var correctAnswer = 0;
+    var intervalId;
 
     //databank as an object q as the questions and a as the answer
     var databank = [{
@@ -81,17 +82,29 @@
 
     //first function countTimerDown    
     function countDownTimer() {
-      var countDown = setInterval(function () {
+      intervalId = setInterval(function () {
         console.log($time);
         $("#remaining-time").text($time + " ");
-        $time = $time - 1;
+        $time--;
         clockRunning = true;
-
-        if ($time <0) {
-          clearTimeout(countDown);
-          clockRunning = false;
-         // return false;
-        }
+        if($time===0){   
+        clearInterval(intervalId); //  clearTimeout
+        clockRunning = false;
+        //time out 
+        //display start button 
+        startNewGameBtn();
+        //increment unsanwered
+        $unanswered++;
+        
+        //then display game results
+        var correctElt = $("<h2>");
+        var incorrectElt = $("<h2>");
+        var unansweredElt = $("<h2>");
+        correctElt.text("Correct: " +$correct);
+        incorrectElt.text("Incorrect: " +$incorrect);
+        unansweredElt.text("Unanswered: " +$unanswered);
+        $("#game").append(correctElt, incorrectElt, unansweredElt);
+      }
 
       }, 1000);
     };
@@ -157,7 +170,7 @@
     $("#button-start").on("click", function () {
 
       // excecute our function countDownTimer and set clockRunning to true
-      clockRunning = true;
+      //clockRunning = true;
       countDownTimer();
 
       //then excecute our function displayQuestion
@@ -181,16 +194,16 @@
         //then display newQuestion
         //displayQuestion();
       });
-      
-      //lets see the state of clockRunnig and $time
-      console.log(`running ${clockRunning} and time : ${$time}`);
 
-      // no answer is selected and clockRunning true
-      if (clockRunning === true) {
+      //// no answer is selected and clockRunning true // && clockRunning === true
+      /* if ($time > 0) {
         //display a new question
         displayQuestion();
-      } 
-      if($time<0){
+
+      } else { // time value less than zero cleartimeOut()      
+        clearInterval(intervalId); //  clearTimeout
+        clockRunning = false;
+        // return false;
         //time out 
         //display start button 
         startNewGameBtn();
@@ -202,10 +215,11 @@
         correctElt.text($correct);
         incorrectElt.text($incorrect);
         unansweredElt.text($unanswered);
-
         $("#game").append(correctElt, incorrectElt, unansweredElt);
+      } */
 
-      }
+      //lets see the state of clockRunnig and $time
+      console.log(`running ${clockRunning} and time : ${$time}`);
 
     });
   </script>
