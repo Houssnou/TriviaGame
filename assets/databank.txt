@@ -1,4 +1,4 @@
-﻿ var databank= [ 
+﻿var databank= [ 
 
 { q: "Who invented the telephone?",a: "Bell"},
 
