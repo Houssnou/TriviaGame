@@ -52,16 +52,20 @@
       ($button).text("Start");
       $("#game").append($button);
 
+      //reset time only because we still the content of the variable to display the game score
+      $time = 30; // 30 for seconds
 
-      //clear the variables
+    };
 
-/*       $correct = 0;
+    //clear the variables with the function resetGame();
+    function resetGame() {
+      $correct = 0;
       $incorrect = 0;
       $unanswered = 0;
-      $time = 30; // 30 for seconds
+      //$time = 30; // 30 for seconds
       clockRunning = false;
       correctAnswer = 0;
-      randomQuestion = ""; */
+      randomQuestion = "";
     };
 
     //first function countTimerDown    
@@ -80,10 +84,11 @@
           //increment unsanwered
           $unanswered++;
 
-          //display start button 
+          //display start button to display a new button start 
           startNewGameBtn();
 
-          //then display game results
+
+          //then display game results with the current values of the variables
           var correctElt = $("<h2>");
           var incorrectElt = $("<h2>");
           var unansweredElt = $("<h2>");
@@ -92,7 +97,10 @@
           unansweredElt.text("Unanswered: " + $unanswered);
           $("#game").append(correctElt, incorrectElt, unansweredElt);
 
-            return false;
+          // call function resetGame to clear the variables 
+          //only after we display the game score
+          //this order is really important
+          resetGame();
         }
 
       }, 1000);
