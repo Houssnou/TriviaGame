@@ -23,50 +23,23 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
-
+  <script src="./assets/javascript/databank.js"> </script>
   <script>
     //creation of the button "Start" when the page is loaded inside the div #game which will display the questions and result at the end of the game.
     startNewGameBtn();
+
     // declaration of the variables
     var $correct = 0;
     var $incorrect = 0;
     var $unanswered = 0;
-    var $time = 9; // 30 for seconds
+    var $time = 30; // 30 for seconds
     var clockRunning = false;
     var correctAnswer = 0;
+    var randomQuestion;
     var intervalId;
 
     //databank as an object q as the questions and a as the answer
-    var databank = [{
-        question: "What is the capital of United Kingdom?",
-        choices: ["Manchester", "Birmingham", "London", "Seattle"],
-        answer: 2
-      },
 
-      {
-        question: "Who invented the telephone?",
-        choices: ["Bell", "Gates", "Jobs", "Siemens"],
-        answer: 1
-      },
-
-      {
-        question: "Which finger nail grows fastest?",
-        choices: ["Ring", "Middle", "Index", "Pinky"],
-        answer: 2
-      },
-
-      {
-        question: "Who wrote Julius Caesar, Macbeth and Hamlet?",
-        choices: ["Amstrong", "Da Silla", "Shakespeare", "Le Jeunot"],
-        answer: 3
-      },
-
-      {
-        question: "What did the crocodile swallow in Peter Pan?",
-        choices: ["pencil", "Watch", "Light bowl", "Alarm clock"],
-        answer: 4
-      }
-    ];
     // end databank. we will move it later into a js file.
 
     //declaration of functions
@@ -78,6 +51,17 @@
       ($button).attr("id", "button-start");
       ($button).text("Start");
       $("#game").append($button);
+
+
+      //clear the variables
+
+/*       $correct = 0;
+      $incorrect = 0;
+      $unanswered = 0;
+      $time = 30; // 30 for seconds
+      clockRunning = false;
+      correctAnswer = 0;
+      randomQuestion = ""; */
     };
 
     //first function countTimerDown    
@@ -85,26 +69,31 @@
       intervalId = setInterval(function () {
         console.log($time);
         $("#remaining-time").text($time + " ");
+
         $time--;
         clockRunning = true;
-        if($time===0){   
-        clearInterval(intervalId); //  clearTimeout
-        clockRunning = false;
-        //time out 
-        //display start button 
-        startNewGameBtn();
-        //increment unsanwered
-        $unanswered++;
-        
-        //then display game results
-        var correctElt = $("<h2>");
-        var incorrectElt = $("<h2>");
-        var unansweredElt = $("<h2>");
-        correctElt.text("Correct: " +$correct);
-        incorrectElt.text("Incorrect: " +$incorrect);
-        unansweredElt.text("Unanswered: " +$unanswered);
-        $("#game").append(correctElt, incorrectElt, unansweredElt);
-      }
+        if ($time === 0) {
+          //
+          clearInterval(intervalId); //  clearTimeout
+          clockRunning = false;
+          //time out           
+          //increment unsanwered
+          $unanswered++;
+
+          //display start button 
+          startNewGameBtn();
+
+          //then display game results
+          var correctElt = $("<h2>");
+          var incorrectElt = $("<h2>");
+          var unansweredElt = $("<h2>");
+          correctElt.text("Correct: " + $correct);
+          incorrectElt.text("Incorrect: " + $incorrect);
+          unansweredElt.text("Unanswered: " + $unanswered);
+          $("#game").append(correctElt, incorrectElt, unansweredElt);
+
+            return false;
+        }
 
       }, 1000);
     };
@@ -115,23 +104,23 @@
       // generates a ramdon number to display a ramdon question
       var randomQuestionIndex = Math.floor(Math.random() * databank.length);
       console.log(`databank length :${databank.length}`);
-      console.log("databank length true :" + Object.keys(databank).length);
 
       console.log(`random num:${randomQuestionIndex}`);
       // get the current question into a var randomQuestion
-      var randomQuestion = databank[randomQuestionIndex];
+      randomQuestion = databank[randomQuestionIndex];
       console.log(randomQuestion);
 
       // for every random question generated lets store the answer right away in a var correctAnswer 
       correctAnswer = parseInt(randomQuestion.answer);
       console.log(`Answer is :${correctAnswer} but the user can't see this. can he??`);
+      //console.log(`choices length:${randomQuestion.choices.length}`);
 
       //display the question
       $("#game").append(`<h1> ${randomQuestion.question}</h1>`);
 
+
+      //loop to display all the answer within the question choices
       //displaying the answers
-      //loop to display all the answer within the question choices 
-      console.log(`choices length:${randomQuestion.choices.length}`);
       for (var i = 0; i < randomQuestion.choices.length; i++) {
         //var button answer to apply style like the hover for click
         var $buttonAnswer = $("<button>");
@@ -140,9 +129,6 @@
         //the i+=1 to the data attr of the button since in our object databank the answer or choices array starts at 1 not 0
         var $buttonAnswerValue = i + 1;
         ($buttonAnswer).attr("data-buttonvalue", $buttonAnswerValue);
-
-        // lets add an id attribute to the button to handle click on answer as button
-        //($buttonAnswer).attr("id","button-answer");  doesnt seem to work since we will have number choices answers buttons with all the same id pffff!!!
 
         //add the choice to the button text
         ($buttonAnswer).text(randomQuestion.choices[i]);
@@ -154,72 +140,37 @@
 
     //third function checkChoice that takes a buttonvalue as argument
     function checkChoice(dataButton) {
-      if (parseInt(dataButton) === correctAnswer) {
+      if ((dataButton) === correctAnswer) {
         $correct++;
         alert("CORRECT");
         displayQuestion();
       } else {
         $incorrect++;
         alert("FALSE");
+        console.log(`val answerCorret: ${randomQuestion.answer -1}`);
+        alert(`Correct is : ${randomQuestion.choices[randomQuestion.answer -1]}`);
         displayQuestion();
       }
-
     };
 
     //event listener for a click on start button
-    $("#button-start").on("click", function () {
-
-      // excecute our function countDownTimer and set clockRunning to true
-      //clockRunning = true;
+    $(document).on("click", "#button-start", function () {
+      // excecute our function countDownTimer
       countDownTimer();
 
       //then excecute our function displayQuestion
       displayQuestion();
 
-      //current windows
-      // var currentThis=($(this));
-      // console.log($("Outside: "+currentThis));
-
-      //event listener for a click on the answer button we're using the class btn-block since id didnt work out very well 
-      //$(document).on("click", ".btn-block", || $(".btn-block").on("click", 
+      //event listener for a click on the answer button we're using the class btn-block 
       $(document).on("click", ".btn-block", function () {
-        //console.log($("Inside: "+$this));
 
         var $buttonValue = $(this).attr("data-buttonvalue");
         $buttonValue = parseInt($buttonValue);
-        //let CL(console log) the value that the 'this' returns
-        console.log(`button answer value: ${$buttonValue}`);
+
+        //console.log(`button answer value: ${$buttonValue}`);
         //check the selected answer
         checkChoice($buttonValue);
-        //then display newQuestion
-        //displayQuestion();
       });
-
-      //// no answer is selected and clockRunning true // && clockRunning === true
-      /* if ($time > 0) {
-        //display a new question
-        displayQuestion();
-
-      } else { // time value less than zero cleartimeOut()      
-        clearInterval(intervalId); //  clearTimeout
-        clockRunning = false;
-        // return false;
-        //time out 
-        //display start button 
-        startNewGameBtn();
-
-        //then display game results
-        var correctElt = $("<h2>");
-        var incorrectElt = $("<h2>");
-        var unansweredElt = $("<h2>");
-        correctElt.text($correct);
-        incorrectElt.text($incorrect);
-        unansweredElt.text($unanswered);
-        $("#game").append(correctElt, incorrectElt, unansweredElt);
-      } */
-
-      //lets see the state of clockRunnig and $time
-      console.log(`running ${clockRunning} and time : ${$time}`);
 
     });
   </script>
